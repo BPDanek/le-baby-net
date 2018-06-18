@@ -1,0 +1,30 @@
+I am a mechanical engineering student; everything is self taught. Here's my digest of websites I found helpful.
+
+# Extra: 
+Deep Learning vs. ML: https://github.com/rasbt/python-machine-learning-book/blob/master/faq/difference-deep-and-normal-learning.md
+Deep Learning Bengio/Courville: http://www.deeplearningbook.org/
+Stanford cs231 (the dream): http://cs231n.stanford.edu/
+
+# Keras tools:
+Keras Documentation: https://keras.io/
+Keras Sequential Model (SM): https://keras.io/getting-started/sequential-model-guide/
+Guide to Keras SM: https://www.coursera.org/learn/ai/lecture/RBbLP/sequential-models-in-keras
+Keras Optimizers: https://keras.io/optimizers/
+General Guide to Keras: https://www.coursera.org/learn/ai/lecture/zRyQo/introduction-video
+
+# Convolutional NN Intro: 
+Stanford's cs231 on CNN: http://cs231n.github.io/convolutional-networks/#conv
+Intuitive Explenation of Convents: https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
+Applied Convelutions (GIMP): https://docs.gimp.org/en/plug-in-convmatrix.html
+Primer on DL, CNN Included: https://blog.datarobot.com/a-primer-on-deep-learning
+Medium's Intro to ML (part3, others linked): https://medium.com/@ageitgey/machine-learning-is-fun-part-3-deep-learning-and-convolutional-neural-networks-f40359318721
+Depth of a CNN: https://stackoverflow.com/questions/32294261/what-is-depth-of-a-convolutional-neural-network
+Selecting Params/Dimension Passing in CNN: https://stats.stackexchange.com/questions/148139/rules-for-selecting-convolutional-neural-network-hyperparameters
+Hand Calc. of Learnable Params: https://stackoverflow.com/questions/42786717/how-to-calculate-the-number-of-parameters-for-convolutional-neural-network
+
+# Activation Functions:
+Activation Functions by Medium: https://medium.com/the-theory-of-everything/understanding-activation-functions-in-neural-networks-9491262884e0
+Why do we need AF's?: https://stats.stackexchange.com/questions/222639/what-makes-neural-networks-a-nonlinear-classification-model
+
+# Loss Function:
+Stochastic Gradient Descent: https://www.quora.com/What-is-an-intuitive-explanation-of-stochastic-gradient-descent
