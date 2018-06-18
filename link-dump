@@ -28,3 +28,6 @@ Why do we need AF's?: https://stats.stackexchange.com/questions/222639/what-make
 
 # Loss Function:
 Stochastic Gradient Descent: https://www.quora.com/What-is-an-intuitive-explanation-of-stochastic-gradient-descent
+
+Miscallaneus:
+Tracking Execution Time: https://stackoverflow.com/questions/1557571/how-do-i-get-time-of-a-python-programs-execution
