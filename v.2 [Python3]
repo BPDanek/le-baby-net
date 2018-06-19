@@ -1,0 +1,132 @@
+import numpy as np
+from tensorflow import device
+from keras.models import Sequential
+from keras.datasets import mnist # 60,000 28x28 grayscale images of 10 digits, + 10,000 test images
+from keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from keras.utils import plot_model, to_categorical
+from keras.preprocessing.image import load_img
+from keras import backend as k
+
+
+""" Import Data/Preprocess - (minimal for this highly prepared data set) """
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+# returns two tuples
+    # x_train, x_test tuple (uint8) grayscale images with shape (num_samples * 28 * 28) num_samples = 60,000
+    # y_train, y_test tuple (uint8) array of digit labels (0-9) with shape (num_samples)
+
+
+mnist_width, mnist_height = 28, 28
+num_classes = 10 # 0-9 for MNIST
+batch_size = 128
+epochs = 20
+
+# input shape; differs based on configuration of imaga_data_format file. diff. per comp.
+if k.image_data_format() == 'channels_first' :
+    x_train = ((x_train.reshape(x_train.shape[0], 1, mnist_width, mnist_height)).astype('float32')) / 255
+    # divide by 255 to get a 0-1 value for the color of a pixel (by default on a 0-255 scale, 0 white, 255 black)
+    x_test = ((x_test.reshape(x_train.shape[0], 1, mnist_width, mnist_height)).astype('float32')) / 255
+    input_shape = (1, mnist_width, mnist_height) # 1 channel, BW image
+
+else : # by default channels is last; this is a configuration setting in backend
+    x_train = ((x_train.reshape(x_train.shape[0], mnist_width, mnist_height, 1)).astype('float32')) / 255
+    x_test = ((x_test.reshape(x_test.shape[0], mnist_width, mnist_height, 1)).astype('float32')) / 255
+    input_shape = (mnist_width, mnist_height, 1)
+
+"""This is how the data is organized"""
+print('x_train shape:', x_train.shape)
+print(x_train.shape[0], 'train samples')
+print(x_test.shape[0], 'test samples')
+print('y_train shape:', y_train.shape)
+print(y_train.shape[0], 'train samples')
+print(y_test.shape[0], 'test samples')
+
+
+y_train = to_categorical(y_train, num_classes=num_classes)
+y_test = to_categorical(y_test, num_classes=num_classes)
+
+""" The CNN architecture """
+# Model_CNN map/checklist:
+    # input data *
+    # conv. layer + ReLu *
+    # pool layer *
+    # conv. layer + ReLu *
+    # pooling *
+    # fully connected *
+    # fully connected *
+    # out
+
+model = Sequential()
+
+num_input_filters = 32 # need help understanding justification
+conv_kernel_size_d1, conv_kernel_size_d2 = 3, 3
+
+# first conv. layer
+convolution_1 = Conv2D(
+    num_input_filters,
+    (conv_kernel_size_d1, conv_kernel_size_d2),
+    activation='relu',
+    input_shape=input_shape
+)
+model.add(convolution_1)
+
+# first pooling
+maxPooling_1 = MaxPooling2D(pool_size=(2,2))
+model.add(maxPooling_1)
+
+# second conv. layer
+convolution_2 = Conv2D(
+    (2 * num_input_filters),
+    (conv_kernel_size_d1, conv_kernel_size_d2),
+    activation='relu'
+    # input shape should be default?
+)
+model.add(convolution_2)
+
+# second pooling
+maxPooling_2 = MaxPooling2D(pool_size=(2, 2), strides=(2,2))
+model.add(maxPooling_2)
+
+# first FC (dense)
+flatten_1 = Flatten()
+model.add(flatten_1)
+
+# first dense
+dense_1 = Dense(128, activation='relu')
+model.add(dense_1)
+
+# second dense
+dense_2 = Dense(num_classes, activation='softmax')
+model.add(dense_2)
+
+# a couple visualization tools
+model.summary() # provides summary of model (output shape, total paramters)
+# plot_model(model, to_file='UNIQUE-NAME.png', show_shapes=True) # plots model? # these require additional software
+# load_img('UNIQUE-NAME.png')
+
+""" Loss Function/nonlinear equation to be solved"""
+model.compile(optimizer='adam',
+              loss = 'categorical_crossentropy',
+              metrics=['accuracy']
+)
+
+# print('model.fit successful')
+with device('/gpu:0'): # should improve training time, assuming you have a GPU
+    # print('with /gpu:0 started')
+    model.fit(x=x_train, y=y_train, batch_size=batch_size, epochs=epochs, verbose=0, validation_data=(x_test, y_test))
+
+evaluation = model.evaluate(x=x_test, y=y_test, batch_size=batch_size, verbose=0)
+print('Test loss: ', evaluation[0])
+print('Test accuracy: ', evaluation[1])
+print('Epochs: ', epochs)
+
+"""
+v.2 changes:
+batch size 64 -> 128; doubled dense 1 layer 64 -> 128.
+conv_kernel_size from 4x4 to 3x3
+deleted stride specification from conveulution & maxPool layers; using keras default
+
+Note, on my computer the 10 epoch training would exceed 5 minutes; at this point I implemented a GPU run (previously
+used CPU). Log book is inconsistent in v2 for this reason.
+
+I have found out there's no GPU on this machine
+"""
