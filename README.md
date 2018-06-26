@@ -9,3 +9,5 @@ The idea is to try out the advice/implementation people reference and quanlitati
 methods are good for which applications.
 
 The link-dump includes useful information associated with this project; if you have quesitons as to why I did something specific (ex. activation function) then refer to that document. 
+
+This repository is currently inactive. If you ask questions I may still answer them, but I'm not working on any updates.
