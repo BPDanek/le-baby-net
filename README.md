@@ -1,3 +1,5 @@
+This Project is currently dormant. May Revisit in future.
+
 # le-baby-net
 leNet implementation by Benjamin Danek
 
